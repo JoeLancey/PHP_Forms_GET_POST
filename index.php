@@ -7,7 +7,7 @@ if (isset($_SESSION['user'])) { header('Location: dashboard.php'); exit; }
 $errors = [];
 $old    = [];
 
-// GET message (from logout)
+
 $get_msg = ($_GET['msg'] ?? '') === 'logged_out' ? 'You have been logged out.' : '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -15,11 +15,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password        = $_POST['password'] ?? '';
     $remember        = isset($_POST['remember']);
 
-    // Validation 1: Required
+    
     if (!$old['username']) $errors['username'] = 'Username or email is required.';
     if (!$password)        $errors['password']  = 'Password is required.';
 
-    // Validation 2: Min length
+    
     if (!isset($errors['password']) && strlen($password) < 8)
         $errors['password'] = 'Password must be at least 8 characters.';
 
@@ -28,20 +28,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (!$user || !password_verify($password, $user['password'])) {
             $errors['general'] = 'Incorrect username/email or password.';
         } else {
-            // Start session
+            
             $_SESSION['user']       = $user['username'];
             $_SESSION['full_name']  = $user['full_name'];
             $_SESSION['email']      = $user['email'];
             $_SESSION['login_time'] = date('Y-m-d H:i:s');
 
-            // Cookie: remember username
+            
             if ($remember) {
                 setcookie('remembered_username', $user['username'], time() + (30 * 86400), '/');
             } else {
                 setcookie('remembered_username', '', time() - 3600, '/');
             }
 
-            // Cookie: last login time
+            
             setcookie('last_login', date('Y-m-d H:i:s'), time() + (365 * 86400), '/');
 
             header('Location: dashboard.php');

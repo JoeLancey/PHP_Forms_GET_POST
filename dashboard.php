@@ -21,7 +21,6 @@ $remembered = isset($_COOKIE['remembered_username']) ? htmlspecialchars($_COOKIE
 <body class="dash">
 
   <div class="topbar">
-    <span class="topbar-title">Dashboard</span>
     <a href="logout.php" class="logout-btn">Logout</a>
   </div>
 
